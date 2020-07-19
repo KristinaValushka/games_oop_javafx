@@ -60,11 +60,43 @@ public class Logic {
         return rst;
     }
 
-    public boolean isWin() {
-        return Win.check(convert());
+    public static boolean monoHorizontal(int[][] board, int row) {
+        boolean result = true;
+        for (int cell = 0; cell < board.length; cell++) {
+            if (board[row][cell] != 1) {
+                result = false;
+                break;
+            }
+        }
+        return result;
     }
 
-    public int[][] convert() {
+    public static boolean monoVertical(int[][] board, int cell) {
+            boolean result = true;
+            for (int row = 0; row < board.length; row++) {
+                if (board[row][cell] != 1) {
+                    result = false;
+                    break;
+                }
+            }
+            return result;
+        }
+
+    public boolean isWin() {
+        boolean result = false;
+        int[][] board = this.convert();
+        for (int i = 0; i < board.length; i++) {
+            if (board[i][i] == 1) {
+                if ((monoHorizontal(board, i) || monoVertical(board, i))) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+        public int[][] convert() {
         int[][] table = new int[size][size];
         for (int row = 0; row != table.length; row++) {
             for (int cell = 0; cell != table.length; cell++) {
@@ -75,10 +107,14 @@ public class Logic {
             }
         }
         return table;
+
     }
+
 
     @Override
     public String toString() {
         return Arrays.toString(convert());
     }
+
+
 }
